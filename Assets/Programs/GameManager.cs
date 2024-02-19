@@ -96,7 +96,7 @@ public class GameManager : MonoBehaviour
     Vector3 P1cameradefaultpos;
     Vector3 P2cameradefaultpos;
 
-    static public int gamedifficulty;//1:easy,2:normal.3:hard
+    static public int gamedifficulty = 0;//1:easy,2:normal.3:hard
     static public float difficulty_modifier;
 
     float gameendtimer;
@@ -137,10 +137,13 @@ public class GameManager : MonoBehaviour
         P1cameradefaultpos = P1Camera.transform.position;
         P2cameradefaultpos = P2Camera.transform.position;
 
-        gamedifficulty = 2;
+        if (gamedifficulty == 0)
+        {
+            gamedifficulty = 2;
+        }
 
         inboss = false;
-        bosscount = 0;
+        bosscount = 60;
 
         gamephase = 0;
         P1ok = false;
@@ -150,7 +153,7 @@ public class GameManager : MonoBehaviour
         switch (gamedifficulty)
         {
             case 1:
-                difficulty_modifier = 0.75f;
+                difficulty_modifier = 0.5f;
                 P1difficulty = 1;
                 P2difficulty = 1;
                 Timedifficulty = 1;
@@ -304,23 +307,23 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        if (Random.Range(0, 100f) < 0.5f + (P1difficulty+Timedifficulty) / 8)
+        if (Random.Range(0, 100f) < (0.5f + (P1difficulty+Timedifficulty) / 8) * difficulty_modifier)
         {
             var GameObject = poolManager.GetGameObject(1, Utilities.vec.right * Random.Range(-3.8f, 3.8f) + Utilities.vec.up * Random.Range(4f, 4.5f), Quaternion.identity);
             GameObject.GetComponent<Bullet2Controller>().SetupBullet(0, 1, Random.Range(2f,3.5f+(P1difficulty+Timedifficulty)/ 20) * GameManager.difficulty_modifier, 1, Utilities.vec.forward * Random.Range(150f, 210f));
         }
-        if (Random.Range(0, 100f) < 0.5f + (P2difficulty+Timedifficulty) / 8)
+        if (Random.Range(0, 100f) < (0.5f + (P2difficulty+Timedifficulty) / 8) * difficulty_modifier)
         {
             var GameObject = poolManager.GetGameObject(1, Utilities.vec.right * Random.Range(-3.8f, 3.8f) + Utilities.vec.up * Random.Range(4f, 4.5f), Quaternion.identity);
             GameObject.GetComponent<Bullet2Controller>().SetupBullet(0, 1, Random.Range(2f, 3.5f + (P2difficulty+Timedifficulty) / 20) * GameManager.difficulty_modifier, 2, Utilities.vec.forward * Random.Range(150f, 210f));
         }
-        if (Random.Range(0, 100f) < (0.5f + (P1difficulty+Timedifficulty) / 8)*4)
+        if (Random.Range(0, 100f) < (0.5f + (P1difficulty+Timedifficulty) / 8)*4 * difficulty_modifier)
         {
             var GameObject = poolManager.GetGameObject(1, Utilities.vec.right * Random.Range(-3.8f, 3.8f) + Utilities.vec.up * Random.Range(4f, 4.5f), Quaternion.identity);
             var dir = P1obj.transform.position - GameObject.transform.position;
             GameObject.GetComponent<Bullet2Controller>().SetupBullet(0, 2, Random.Range(2f, 3.5f + (P1difficulty+Timedifficulty) / 20) * GameManager.difficulty_modifier, 1, Quaternion.FromToRotation(Utilities.vec.up, dir).eulerAngles * Random.Range(0.9f, 1.1f));
         }
-        if (Random.Range(0, 100f) < (0.5f + (P2difficulty+Timedifficulty) / 8)*4)
+        if (Random.Range(0, 100f) < (0.5f + (P2difficulty+Timedifficulty) / 8)*4 * difficulty_modifier)
         {
             var GameObject = poolManager.GetGameObject(1, Utilities.vec.right * Random.Range(-3.8f, 3.8f) + Utilities.vec.up * Random.Range(4f, 4.5f), Quaternion.identity);
             var dir = P2obj.transform.position - GameObject.transform.position;

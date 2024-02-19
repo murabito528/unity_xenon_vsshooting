@@ -266,11 +266,11 @@ public class EnemyController : MonoBehaviour
 
                     if (enemy_type == 3)
                     {
-                        for (int i = 0; i < 5 + Mathf.Floor(GameManager.P1difficulty / 4); i++)
+                        for (int i = 0; i < (5 + Mathf.Floor(GameManager.P1difficulty / 4))*GameManager.difficulty_modifier; i++)
                         {
                             Instantiate(gm.powerorbP1_Prefab, tf.position, Quaternion.identity);
                         }
-                        if (Random.Range(0, 100) < 20 + (GameManager.P1difficulty + GameManager.Timedifficulty) * 2)//20~84
+                        if (Random.Range(0, 100) < (20 + (GameManager.P1difficulty + GameManager.Timedifficulty) * 2) * GameManager.difficulty_modifier)//20~84
                         {
                             Instantiate(gm.exattackorbP1_Prefab, tf.position, Quaternion.identity);
                         }
@@ -279,7 +279,7 @@ public class EnemyController : MonoBehaviour
                     }
                     else
                     {
-                        for (int i = 0; i < 2 + Mathf.Floor(GameManager.P1difficulty / 4); i++)
+                        for (int i = 0; i < (2 + Mathf.Floor(GameManager.P1difficulty / 4)) * GameManager.difficulty_modifier; i++)
                         {
                             Instantiate(gm.powerorbP1_Prefab, tf.position, Quaternion.identity);
                         }
@@ -300,11 +300,11 @@ public class EnemyController : MonoBehaviour
 
                     if (enemy_type == 3)
                     {
-                        for (int i = 0; i < 5 + Mathf.Floor(GameManager.P2difficulty / 4); i++)
+                        for (int i = 0; i < (5 + Mathf.Floor(GameManager.P2difficulty / 4)) * GameManager.difficulty_modifier; i++)
                         {
                             Instantiate(gm.powerorbP2_Prefab, tf.position, Quaternion.identity);
                         }
-                        if (Random.Range(0, 100) < 20 + (GameManager.P2difficulty + GameManager.Timedifficulty) * 2)//20~84
+                        if (Random.Range(0, 100) < (20 + (GameManager.P2difficulty + GameManager.Timedifficulty) * 2) * GameManager.difficulty_modifier)//20~84
                         {
                             Instantiate(gm.exattackorbP2_Prefab, tf.position, Quaternion.identity);
                         }
@@ -312,7 +312,7 @@ public class EnemyController : MonoBehaviour
                     }
                     else
                     {
-                        for (int i = 0; i < 2 + Mathf.Floor(GameManager.P2difficulty / 4); i++)
+                        for (int i = 0; i < (2 + Mathf.Floor(GameManager.P2difficulty / 4)) * GameManager.difficulty_modifier; i++)
                         {
                             Instantiate(gm.powerorbP2_Prefab, tf.position, Quaternion.identity);
                         }
@@ -337,7 +337,7 @@ public class EnemyController : MonoBehaviour
 
                     if(enemy_type == 3)
                     {
-                        for (int i = 0; i < 3 + Mathf.Floor(GameManager.P1difficulty/5); i++)
+                        for (int i = 0; i < (3 + Mathf.Floor(GameManager.P1difficulty/5)) * GameManager.difficulty_modifier; i++)
                         {
                             Instantiate(gm.powerorbP1_Prefab, tf.position, Quaternion.identity);
                         }
@@ -345,7 +345,7 @@ public class EnemyController : MonoBehaviour
                     }
                     else
                     {
-                        for (int i = 0; i < 1 + Mathf.Floor(GameManager.P1difficulty / 5); i++)
+                        for (int i = 0; i < (1 + Mathf.Floor(GameManager.P1difficulty / 5)) * GameManager.difficulty_modifier; i++)
                         {
                             Instantiate(gm.powerorbP1_Prefab, tf.position, Quaternion.identity);
                         }
@@ -365,7 +365,7 @@ public class EnemyController : MonoBehaviour
 
                     if (enemy_type == 3)
                     {
-                        for (int i = 0; i < 3 + Mathf.Floor(GameManager.P2difficulty / 5); i++)
+                        for (int i = 0; i < (3 + Mathf.Floor(GameManager.P2difficulty / 5)) * GameManager.difficulty_modifier; i++)
                         {
                             Instantiate(gm.powerorbP2_Prefab, tf.position, Quaternion.identity);
                         }
@@ -373,7 +373,7 @@ public class EnemyController : MonoBehaviour
                     }
                     else
                     {
-                        for (int i = 0; i < 1 + Mathf.Floor(GameManager.P2difficulty / 5); i++)
+                        for (int i = 0; i < (1 + Mathf.Floor(GameManager.P2difficulty / 5)) * GameManager.difficulty_modifier; i++)
                         {
                             Instantiate(gm.powerorbP2_Prefab, tf.position, Quaternion.identity);
                         }

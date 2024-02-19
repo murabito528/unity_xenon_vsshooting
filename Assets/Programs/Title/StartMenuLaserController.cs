@@ -11,6 +11,7 @@ public class StartMenuLaserController : MonoBehaviour
 
     [SerializeField]
     List<Sprite> sprites;
+
     // Start is called before the first frame update
     void Start()
     {
