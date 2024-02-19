@@ -52,7 +52,7 @@ public class GameSettingSceneManager : MonoBehaviour
                     select_num = Mathf.Min(3, select_num + 1);
                     select_arrow.GetComponent<RectTransform>().anchoredPosition = new Vector3(-450,-250 * select_num + 123, 0);
                 }
-                if (Input.GetKeyDown(KeyCode.Space))
+                if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.C) || Input.GetKeyDown(KeyCode.O))
                 {
                     GameManager.gamedifficulty = select_num;
                     select_laser.SetActive(true);

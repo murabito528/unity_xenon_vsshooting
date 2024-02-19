@@ -35,6 +35,15 @@ public class GameManager : MonoBehaviour
     GameObject P2ready;
 
     [SerializeField]
+    GameObject PauseSelector;
+
+    [SerializeField]
+    GameObject blackoutui;
+
+    [SerializeField]
+    GameObject loading;
+
+    [SerializeField]
     List<GameObject> enemy_Prefab;
 
 
@@ -107,6 +116,10 @@ public class GameManager : MonoBehaviour
     bool P1ok;
     bool P2ok;
 
+    int select_num;
+
+    bool control;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -150,6 +163,8 @@ public class GameManager : MonoBehaviour
         P2ok = false;
         gamestarttimer = 3;
 
+        control = true;
+
         switch (gamedifficulty)
         {
             case 1:
@@ -166,9 +181,9 @@ public class GameManager : MonoBehaviour
                 break;
             case 3:
                 difficulty_modifier = 1.5f;
-                P1difficulty = 10;
-                P2difficulty = 10;
-                Timedifficulty = 10;
+                P1difficulty = 1;
+                P2difficulty = 1;
+                Timedifficulty = 5;
                 break;
         }
         
@@ -177,29 +192,50 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape)&&control)
         {
             if (pause)
             {
                 pause = false;
                 pausemenu.SetActive(false);
+                select_num = 1;
             }
             else
             {
                 pause = true;
                 pausemenu.SetActive(true);
+                select_num = 1;
             }
         }
 
-        if (pause)
+        if (pause&&control)
         {
-            if (Input.GetKeyDown(KeyCode.Z)||Input.GetKeyDown(KeyCode.KeypadEnter))
+            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
             {
-#if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false;
-#else
-    Application.Quit();
-#endif
+                select_num = Mathf.Max(1, select_num - 1);
+
+                PauseSelector.GetComponent<RectTransform>().anchoredPosition = new Vector3(-120, -50 * select_num, 0);
+            }
+            if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                select_num = Mathf.Min(2, select_num + 1);
+                PauseSelector.GetComponent<RectTransform>().anchoredPosition = new Vector3(-120, -50 * select_num, 0);
+            }
+            if (Input.GetKeyDown(KeyCode.Space)|| Input.GetKeyDown(KeyCode.C) || Input.GetKeyDown(KeyCode.O))
+            {
+                if (select_num == 1)
+                {
+                    pause = false;
+                    pausemenu.SetActive(false);
+                    select_num = 1;
+                }
+                if (select_num == 2)
+                {
+                    Invoke(nameof(ChangeTitleScene),2);
+                    blackoutui.GetComponent<BlackoutUIController>().enabled = true;
+                    loading.SetActive(true);
+                    control = false;
+                }
             }
         }
 
@@ -539,5 +575,10 @@ public class GameManager : MonoBehaviour
                 P2Camera.transform.position = P2cameradefaultpos;
             }
         }
+    }
+
+    void ChangeTitleScene()
+    {
+        GetComponent<LoadingSceneBarController>().LoadNextScene("TitleScene");
     }
 }

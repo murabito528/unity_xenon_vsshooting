@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class StartSceneManager : MonoBehaviour
 {
@@ -31,12 +32,26 @@ public class StartSceneManager : MonoBehaviour
 
     int select_num;
 
+    GameInputs _gameInputs;
+
+    private void Awake()
+    {
+        _gameInputs = new GameInputs();
+
+        _gameInputs.Enable();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         phase = 0;
         time = 0;
         select_num = 1;
+#if UNITY_EDITOR
+        Cursor.visible = true;
+#else
+        Cursor.visible = false;
+#endif
     }
 
     // Update is called once per frame
@@ -76,7 +91,7 @@ public class StartSceneManager : MonoBehaviour
                     select_num = Mathf.Min(5, select_num + 1);
                     select_arrow.GetComponent<RectTransform>().anchoredPosition = new Vector3(360, -15 + (-60 * select_num + 60), 0);
                 }
-                if (Input.GetKeyDown(KeyCode.Space))
+                if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.C) || Input.GetKeyDown(KeyCode.O))
                 {
                     switch (select_num)
                     {
@@ -108,6 +123,11 @@ public class StartSceneManager : MonoBehaviour
                 }
                 break;
         }
+    }
+
+    private void OnDestroy()
+    {
+        _gameInputs.Dispose();
     }
 
     void GameEnd()
