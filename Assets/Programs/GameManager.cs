@@ -44,6 +44,15 @@ public class GameManager : MonoBehaviour
     GameObject loading;
 
     [SerializeField]
+    GameObject RetrySelector;
+
+    [SerializeField]
+    GameObject RetryBlackPanel;
+
+    [SerializeField]
+    GameObject RetryLaser;
+
+    [SerializeField]
     List<GameObject> enemy_Prefab;
 
 
@@ -111,7 +120,7 @@ public class GameManager : MonoBehaviour
     float gameendtimer;
     float gamestarttimer;
 
-    int gamephase;//0:準備ok? 1:カウントダウン 2:ゲーム中 3:ゲーム終了
+    static public int gamephase;//0:準備ok? 1:カウントダウン 2:ゲーム中 3:ゲーム終了 4:再戦確認
 
     bool P1ok;
     bool P2ok;
@@ -181,8 +190,8 @@ public class GameManager : MonoBehaviour
                 break;
             case 3:
                 difficulty_modifier = 1.5f;
-                P1difficulty = 1;
-                P2difficulty = 1;
+                P1difficulty = 5;
+                P2difficulty = 5;
                 Timedifficulty = 5;
                 break;
         }
@@ -246,7 +255,7 @@ public class GameManager : MonoBehaviour
 
         cameraShake();
 
-        if (!GameNow)
+        if (!GameNow&&control)
         {
             switch (gamephase) {
                 case 0:
@@ -282,11 +291,43 @@ public class GameManager : MonoBehaviour
                     if (gameendtimer > 0)
                     {
                         gameendtimer -= Time.deltaTime;
+                        if (gameendtimer <= 0)
+                        {
+                            RetryBlackPanel.SetActive(true);
+                            gamephase = 4;
+                            select_num = 1;
+                        }
                         return;
                     }
-                    if (Input.GetKeyDown(KeyCode.Space))
+                    break;
+                case 4:
+                    if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
                     {
-                        SceneManager.LoadScene("GameScene");
+                        select_num = Mathf.Max(1, select_num - 1);
+                        RetrySelector.GetComponent<RectTransform>().anchoredPosition = new Vector3(-120, 3 + -50 * (select_num-1), 0);
+                    }
+                    if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+                    {
+                        select_num = Mathf.Min(2, select_num + 1);
+                        RetrySelector.GetComponent<RectTransform>().anchoredPosition = new Vector3(-120, 3 + -50 * (select_num-1), 0);
+                    }
+                    if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.C) || Input.GetKeyDown(KeyCode.O))
+                    {
+                        if (select_num == 1)
+                        {
+                            Invoke(nameof(ChangeGameScene), 2);
+                            blackoutui.GetComponent<BlackoutUIController>().enabled = true;
+                            loading.SetActive(true);
+                            control = false;
+                        }
+                        if (select_num == 2)
+                        {
+                            Invoke(nameof(ChangeTitleScene), 2);
+                            blackoutui.GetComponent<BlackoutUIController>().enabled = true;
+                            loading.SetActive(true);
+                            control = false;
+                        }
+                        RetryLaser.SetActive(true);
                     }
                     break;
             }
@@ -580,5 +621,9 @@ public class GameManager : MonoBehaviour
     void ChangeTitleScene()
     {
         GetComponent<LoadingSceneBarController>().LoadNextScene("TitleScene");
+    }
+    void ChangeGameScene()
+    {
+        GetComponent<LoadingSceneBarController>().LoadNextScene("GameScene");
     }
 }

@@ -39,6 +39,8 @@ public class PlayerController : MonoBehaviour
 
     float invinsibletime;
 
+    public bool test_autoattack;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -57,6 +59,11 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         if (GameManager.pause == true)
+        {
+            return;
+        }
+
+        if (GameManager.gamephase >= 4)
         {
             return;
         }
@@ -110,7 +117,7 @@ public class PlayerController : MonoBehaviour
                 return;
             }
 
-            if (Input.GetKey(KeyCode.C) && !Input.GetKey(KeyCode.V) && shotcooltime < 0)
+            if ((Input.GetKey(KeyCode.C) && !Input.GetKey(KeyCode.V) || test_autoattack) && shotcooltime < 0)
             {
                 shotcooltime = 0.1f;
                 if (P1)
@@ -135,33 +142,36 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKeyUp(KeyCode.V))
             {
                 //Debug.Log("charge:" + charge);
-                if (charge < 20)//C1
+                if (charge < 30)//C1
                 {
-                    Debug.Log("C1");
-                    if (charge >= 100 && charge < 200)
+                    //Debug.Log("Instant");
+                    if (GameManager.P1bombpoint >= 100 && GameManager.P1bombpoint < 200)
                     {
+                        if (GameManager.P1difficulty < 16) GameManager.P1difficulty += 1;
                         Instantiate(bomb_prefab, tf.position, Quaternion.identity).GetComponent<BombAuraController>().Setup(1, 3);
                         GameManager.P1bombpoint = 0;
                     }
-                    if(charge >= 200)
+                    if(GameManager.P1bombpoint >= 200)
                     {
+                        if (GameManager.P1difficulty < 16) GameManager.P1difficulty += 1;
                         Instantiate(bomb_prefab, tf.position, Quaternion.identity).GetComponent<BombAuraController>().Setup(1, 4);
                         GameManager.P1bombpoint = 0;
                     }
                 }
                 else if (charge < 100)
                 {
+                    //Debug.Log("charge:" + charge);
                     //•s”­
                 }
                 else if (charge < 200)//C2 100~199
                 {
-                    Debug.Log("C2");
+                    //Debug.Log("C1");
                     Instantiate(bomb_prefab, tf.position, Quaternion.identity).GetComponent<BombAuraController>().Setup(1, 2);
                     
                 }
                 else if (charge < 300)//C3 200~299
                 {
-                    Debug.Log("C3");
+                    //Debug.Log("C2");
                     if (GameManager.P1difficulty < 16) GameManager.P1difficulty += 1;
                     if (Input.GetKey(KeyCode.LeftShift))
                     {
@@ -178,7 +188,7 @@ public class PlayerController : MonoBehaviour
                 }
                 else//C4 300
                 {
-                    Debug.Log("C4");
+                    //Debug.Log("C3");
                     if (GameManager.P1difficulty < 16) GameManager.P1difficulty += 1;
                     if (Input.GetKey(KeyCode.LeftShift))
                     {
@@ -247,7 +257,7 @@ public class PlayerController : MonoBehaviour
                 return;
             }
 
-            if (Input.GetKey(KeyCode.O) && !Input.GetKey(KeyCode.P) && shotcooltime < 0)
+            if ((Input.GetKey(KeyCode.O) && !Input.GetKey(KeyCode.P)||test_autoattack) && shotcooltime < 0)
             {
                 shotcooltime = 0.1f;
                 if (P1)
@@ -274,13 +284,13 @@ public class PlayerController : MonoBehaviour
                 //Debug.Log("charge:" + charge);
                 if (charge < 20)//C1
                 {
-                    Debug.Log("C1");
-                    if (charge >= 100 && charge < 200)
+                    //Debug.Log("C1");
+                    if (GameManager.P2bombpoint >= 100 && GameManager.P2bombpoint < 200)
                     {
                         Instantiate(bomb_prefab, tf.position, Quaternion.identity).GetComponent<BombAuraController>().Setup(2, 3);
                         GameManager.P2bombpoint = 0;
                     }
-                    if (charge >= 200)
+                    if (GameManager.P2bombpoint >= 200)
                     {
                         Instantiate(bomb_prefab, tf.position, Quaternion.identity).GetComponent<BombAuraController>().Setup(2, 4);
                         GameManager.P2bombpoint = 0;
@@ -292,13 +302,13 @@ public class PlayerController : MonoBehaviour
                 }
                 else if (charge < 200)//C2 100~199
                 {
-                    Debug.Log("C2");
+                    //Debug.Log("C2");
                     Instantiate(bomb_prefab, tf.position, Quaternion.identity).GetComponent<BombAuraController>().Setup(2, 2);
 
                 }
                 else if (charge < 300)//C3 200~299
                 {
-                    Debug.Log("C3");
+                    //Debug.Log("C3");
                     if (GameManager.P2difficulty < 16) GameManager.P2difficulty += 1;
                     if (Input.GetKey(KeyCode.LeftShift))
                     {
@@ -315,7 +325,7 @@ public class PlayerController : MonoBehaviour
                 }
                 else//C4 300
                 {
-                    Debug.Log("C4");
+                    //Debug.Log("C4");
                     if (GameManager.P2difficulty < 16) GameManager.P2difficulty += 1;
                     if (Input.GetKey(KeyCode.LeftShift))
                     {
