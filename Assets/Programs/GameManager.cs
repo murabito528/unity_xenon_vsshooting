@@ -173,6 +173,7 @@ public class GameManager : MonoBehaviour
         gamestarttimer = 3;
 
         control = true;
+        pause = false;
 
         switch (gamedifficulty)
         {
