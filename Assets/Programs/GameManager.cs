@@ -215,6 +215,7 @@ public class GameManager : MonoBehaviour
                 pause = true;
                 pausemenu.SetActive(true);
                 select_num = 1;
+                PauseSelector.GetComponent<RectTransform>().anchoredPosition = new Vector3(-120, -50 * select_num, 0);
             }
         }
 
@@ -297,6 +298,7 @@ public class GameManager : MonoBehaviour
                             RetryBlackPanel.SetActive(true);
                             gamephase = 4;
                             select_num = 1;
+                            RetrySelector.GetComponent<RectTransform>().anchoredPosition = new Vector3(-120, 3 + -50 * (select_num - 1), 0);
                         }
                         return;
                     }
