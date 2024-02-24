@@ -310,7 +310,7 @@ public class PlayerController : MonoBehaviour
                 {
                     //Debug.Log("C3");
                     if (GameManager.P2difficulty < 16) GameManager.P2difficulty += 1;
-                    if (Input.GetKey(KeyCode.LeftShift))
+                    if (Input.GetKey(KeyCode.K))
                     {
                         Instantiate(bomb_prefab, tf.position, Quaternion.identity).GetComponent<BombAuraController>().Setup(2, 3);
                         GameManager.P2bombpoint -= 200;
@@ -327,7 +327,7 @@ public class PlayerController : MonoBehaviour
                 {
                     //Debug.Log("C4");
                     if (GameManager.P2difficulty < 16) GameManager.P2difficulty += 1;
-                    if (Input.GetKey(KeyCode.LeftShift))
+                    if (Input.GetKey(KeyCode.K))
                     {
                         Instantiate(bomb_prefab, tf.position, Quaternion.identity).GetComponent<BombAuraController>().Setup(2, 4);
                         GameManager.P2bombpoint -= 300;
